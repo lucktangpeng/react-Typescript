@@ -3,6 +3,7 @@ import { createHashHistory } from 'history'
 import { routerMiddleware } from 'connected-react-router'
 import createRootReducer from './reducers/index'
 import createSagaMiddleware from 'redux-saga'
+import { composeWithDevTools } from 'redux-devtools-extension'
 import rootSaga from "./sagas";
 
 export const history = createHashHistory()
@@ -11,7 +12,7 @@ const sagaMiddlewate = createSagaMiddleware()
 
 const store = createStore(
   createRootReducer(history),
-  applyMiddleware(routerMiddleware(history), sagaMiddlewate)
+  composeWithDevTools(applyMiddleware(routerMiddleware(history), sagaMiddlewate))
 )
 
 sagaMiddlewate.run(rootSaga)
