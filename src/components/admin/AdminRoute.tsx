@@ -8,7 +8,7 @@ interface PrivateRouteProps extends RouteProps {
   component: React.ComponentType<any>
 }
 
-const PrivateRoute: FC<PrivateRouteProps> = ({
+const AdminRoute: FC<PrivateRouteProps> = ({
   component: Component,
   ...rest
 }) => {
@@ -22,4 +22,4 @@ const PrivateRoute: FC<PrivateRouteProps> = ({
   }} />
 }
 
-export default PrivateRoute
+export default AdminRoute
