@@ -21,7 +21,7 @@ const ProductItem: FC<Props> = ({ product }) => {
       cover={<Image src={`${API}/product/photo/${product._id}`} alt={product.name} />}
       actions={[
         <Button type="link">
-          <Link to="">查看详情</Link>
+          <Link to={`/product/${product._id}`}>查看详情</Link>
         </Button>,
         <Button type="link">
           <Link to="">加入购物车</Link>

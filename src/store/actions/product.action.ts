@@ -74,18 +74,20 @@ export const SearchProductSuccess = (products: Product[]) => ({
 export const FILTER_PRODUCT = "FILTER_PRODUCT"
 export const FILTER_PRODUCT_SUCCESS = "FILTER_PRODUCT_SUCCESS"
 
+
+export interface FilterPayload {
+  order?: string
+  sortBy?: string
+  limit?: number
+  skip: number
+  filters?: {
+    category: string[],
+    price: number[]
+  }
+}
 export interface FilterProductAction {
   type: typeof FILTER_PRODUCT
-  payload: {
-    order?: string
-    sortBy?: string
-    limit?: number
-    skip: number
-    filter?: {
-      category: string[],
-      price: number[]
-    }
-  }
+  payload: FilterPayload
 }
 
 export interface FilterProductSuccessAction {
@@ -97,9 +99,28 @@ export interface FilterProductSuccessAction {
   skip: number
 }
 
+export const filterProduct = (payload: FilterPayload): FilterProductAction => ({
+  type: FILTER_PRODUCT,
+  payload
+})
+
+export const filterProductSuccess = (payload: {
+  size: number
+  data: Product[]
+},
+  skip: number
+): FilterProductSuccessAction => ({
+  type: FILTER_PRODUCT_SUCCESS,
+  payload,
+  skip
+})
+
+
 
 export type ProductUnionType =
   | GetProductAction
   | GetProductSuccessAction
   | SearchProductAction
   | SearchProductSuccessAction
+  | FilterProductAction
+  | FilterProductSuccessAction
