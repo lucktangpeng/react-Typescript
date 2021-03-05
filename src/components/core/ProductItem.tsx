@@ -7,26 +7,51 @@ import { Typography } from 'antd';
 import { Product } from '../../store/models/product';
 import { API } from '../../config';
 import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import { addItem } from '../../helpers/cart';
+import { push } from 'connected-react-router';
 
 const { Title, Paragraph } = Typography;
 
 interface Props {
-  product: Product
+  product: Product,
+  showViewProduct?: boolean,
+  showCartBtn?: boolean
 }
-const ProductItem: FC<Props> = ({ product }) => {
+const ProductItem: FC<Props> = ({ product, showViewProduct = true, showCartBtn = true }) => {
+
+  const dispatch = useDispatch()
+  const addToCart = () => {
+    addItem(product, () => {
+      dispatch(push("/cart"))
+    })
+  }
+
+
+  const showButtons = () => {
+    let buttonArray = []
+    if (showViewProduct) {
+      buttonArray.push(
+        <Button type="link">
+          <Link to={`/product/${product._id}`}>查看详情</Link>
+        </Button>
+      )
+    }
+    if (showCartBtn) {
+      buttonArray.push(
+        <Button type="link" onClick={addToCart}>
+          加入购物车
+        </Button>
+      )
+    }
+    return buttonArray
+  }
   return (
     <Card
       hoverable
       // style={{ width: 240 }}
       cover={<Image src={`${API}/product/photo/${product._id}`} alt={product.name} />}
-      actions={[
-        <Button type="link">
-          <Link to={`/product/${product._id}`}>查看详情</Link>
-        </Button>,
-        <Button type="link">
-          <Link to="">加入购物车</Link>
-        </Button>
-      ]}
+      actions={showButtons()}
     >
       <Title level={5}>{product.name}</Title>
       <Paragraph ellipsis={{ rows: 2 }}>{product.description}</Paragraph>
